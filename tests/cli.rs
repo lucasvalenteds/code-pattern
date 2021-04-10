@@ -51,3 +51,22 @@ fn applying_pattern_on_valid_code(
 
     Ok(())
 }
+
+#[rstest]
+#[case("- x-x-x 1234")]
+#[case("- x-xx-xxx 12345")]
+#[case("; x;xx;xxx 12345")]
+#[case("; x;xx;xxx;xx;x abcdefghijk")]
+fn applying_pattern_on_invalid_code(#[case] args: &str) -> Result<(), Box<dyn Error>> {
+    let mut cmd = Command::cargo_bin("code-pattern")?;
+
+    cmd.args(args.split(" ").into_iter());
+    cmd.assert()
+        .failure()
+        .code(2)
+        .stdout(predicate::str::contains(
+            "Could not apply pattern to the code",
+        ));
+
+    Ok(())
+}
