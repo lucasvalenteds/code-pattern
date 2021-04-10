@@ -37,13 +37,13 @@ fn main() {
         }
     };
 
-    match pretty_print(raw_code.to_owned(), pattern) {
+    match apply_pattern(raw_code.to_owned(), pattern) {
         Some(code) => {
             println!("{}", code);
             exit(0);
         }
         None => {
-            println!("Could not pretty print the code: {}", raw_code);
+            println!("Could not apply pattern to the code: {}", raw_code);
             exit(2);
         }
     }

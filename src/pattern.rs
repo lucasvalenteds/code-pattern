@@ -3,7 +3,7 @@ pub struct Pattern {
     pub delimiter: String,
 }
 
-pub fn pretty_print(raw_code: String, pattern: Pattern) -> Option<String> {
+pub fn apply_pattern(raw_code: String, pattern: Pattern) -> Option<String> {
     let max_code_size = pattern.mask.replace(&pattern.delimiter, "");
     if raw_code.len() > max_code_size.len() {
         return None;
@@ -42,7 +42,7 @@ pub fn pretty_print(raw_code: String, pattern: Pattern) -> Option<String> {
 #[cfg(test)]
 mod tests {
 
-    use super::{pretty_print, Pattern};
+    use super::{apply_pattern, Pattern};
     use rstest::*;
 
     #[rstest]
@@ -50,7 +50,7 @@ mod tests {
     #[case("123", "1;23")]
     #[case("123456", "1;23;456")]
     fn test_valid_code(#[case] raw_code: &str, #[case] expected_code: &str) {
-        let code = pretty_print(
+        let code = apply_pattern(
             raw_code.to_string(),
             Pattern {
                 mask: String::from("x;xx;xxx"),
@@ -66,7 +66,7 @@ mod tests {
     #[case("1234")]
     #[case("12345")]
     fn test_invalid_code(#[case] raw_code: &str) {
-        let code = pretty_print(
+        let code = apply_pattern(
             raw_code.to_string(),
             Pattern {
                 mask: String::from("x;xx;xxx"),

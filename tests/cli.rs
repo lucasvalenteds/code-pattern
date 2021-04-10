@@ -37,7 +37,7 @@ fn missing_cli_arguments(#[case] args: &str) -> Result<(), Box<dyn Error>> {
 #[case("- x-xx-xxx 123456", "1-23-456")]
 #[case("; x;xx;xxx 123456", "1;23;456")]
 #[case("; x;xx;xxx;xx;x abcdefghi", "a;bc;def;gh;i")]
-fn pretty_printing_valid_code(
+fn applying_pattern_on_valid_code(
     #[case] args: &str,
     #[case] code: &str,
 ) -> Result<(), Box<dyn Error>> {
